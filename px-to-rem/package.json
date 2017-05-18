@@ -1,0 +1,66 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "C:\\Users\\sayya\\AppData\\Local\\Temp\\d-116915-11260-1m1vhce\\package.tgz",
+        "scope": null,
+        "escapedName": null,
+        "name": null,
+        "rawSpec": "C:\\Users\\sayya\\AppData\\Local\\Temp\\d-116915-11260-1m1vhce\\package.tgz",
+        "spec": "C:\\Users\\sayya\\AppData\\Local\\Temp\\d-116915-11260-1m1vhce\\package.tgz",
+        "type": "local"
+      },
+      "C:\\Users\\sayya\\AppData\\Local\\Temp\\apm-install-dir-116915-11260-154hpr5"
+    ]
+  ],
+  "_from": "..\\d-116915-11260-1m1vhce\\package.tgz",
+  "_id": "px-to-rem@0.6.0",
+  "_inCache": true,
+  "_installable": true,
+  "_location": "/px-to-rem",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "C:\\Users\\sayya\\AppData\\Local\\Temp\\d-116915-11260-1m1vhce\\package.tgz",
+    "scope": null,
+    "escapedName": null,
+    "name": null,
+    "rawSpec": "C:\\Users\\sayya\\AppData\\Local\\Temp\\d-116915-11260-1m1vhce\\package.tgz",
+    "spec": "C:\\Users\\sayya\\AppData\\Local\\Temp\\d-116915-11260-1m1vhce\\package.tgz",
+    "type": "local"
+  },
+  "_requiredBy": [
+    "#USER"
+  ],
+  "_resolved": "file:..\\d-116915-11260-1m1vhce\\package.tgz",
+  "_shasum": "33f7f8d026735838d4f03b67b654fb5b1c013314",
+  "_shrinkwrap": null,
+  "_spec": "C:\\Users\\sayya\\AppData\\Local\\Temp\\d-116915-11260-1m1vhce\\package.tgz",
+  "_where": "C:\\Users\\sayya\\AppData\\Local\\Temp\\apm-install-dir-116915-11260-154hpr5",
+  "activationCommands": {
+    "atom-workspace": "px-to-rem:convert"
+  },
+  "bugs": {
+    "url": "https://github.com/gmendonca/px-to-rem/issues"
+  },
+  "dependencies": {
+    "postcss": "^5.0.12",
+    "postcss-pxtorem": "^3.1.0"
+  },
+  "description": "Change px to rem",
+  "devDependencies": {},
+  "engines": {
+    "atom": ">=0.174.0"
+  },
+  "homepage": "https://github.com/gmendonca/px-to-rem#readme",
+  "license": "MIT",
+  "main": "./lib/px-to-rem",
+  "name": "px-to-rem",
+  "optionalDependencies": {},
+  "readme": "# px-to-rem package\n\nResponsive it is.\n\nJust a simple package that turn your selected pixels text into rem for Atom.io.\n\nSimple as that:\n\n1 - Select the the part of the code you want to change, for example '40px'.\n\n2 - Type Ctrl+Shift+E (Cmd+Shift+E for Mac users), and that is it.\n\n![ScreenShot1] (https://github.com/guzzgm/px-to-rem/blob/master/images/ScreenShot1.png)\n![ScreenShot2] (https://github.com/guzzgm/px-to-rem/blob/master/images/ScreenShot2.png)\n![ScreenShot3] (https://github.com/guzzgm/px-to-rem/blob/master/images/ScreenShot3.png)\n\n3 - By default, the convert base size is 16. But You can change it under the package settings.\n\n![ScreenShot4] (https://github.com/guzzgm/px-to-rem/blob/master/images/ScreenShot4.png)\n",
+  "readmeFilename": "README.md",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gmendonca/px-to-rem.git"
+  },
+  "version": "0.6.0"
+}
