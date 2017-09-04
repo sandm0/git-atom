@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>css3input</title>
+    <script src="http://cdn.staticfile.org/jquery/2.2.1/jquery.min.js"></script>
+    <style>
+        html, body, div, ul, li, p {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #1893C8;
+            color: #333;
+        }
+        ul, li {
+            list-style-type: none;
+        }
+        .container {
+            margin-top: 5%;
+        }
+        .select {
+            width: 300px;
+            height: 40px;
+            margin: 0 auto;
+            font: 400 14px/40px "microsoft YaHei";
+            background: #fff;
+            /*border: 1px solid #86CDFF;*/
+            position: relative;
+        }
+        .select:after {
+            content: "";
+            display: block;
+            width: 10px;
+            height:10px;
+            right: 10px;
+            top: 12px;
+            position: absolute;
+            border-left: 1px solid #b1b1b1;
+            border-bottom: 1px solid #b1b1b1;
+            -webkit-transform: rotate(-45deg);
+            transform: rotate(-45deg);
+            -webkit-transition: -webkit-transform .2s ease-out, top .2s ease-out;
+            transition: transform .2s ease-out, top .2s ease-out;
+        }
+        .select > p {
+            padding: 0 15px;
+            line-height: 40px;
+            cursor: pointer;
+        }
+        .select ul {
+            width: 100%;
+            background-color: #fff;
+            top: 40px;
+            left: 0;
+            position: absolute;
+            overflow-y: hidden;
+            max-height: 0;
+            -webkit-transition: max-height .3s ease-out;
+            transition: max-height .3s ease-out;
+        }
+
+        @-webkit-keyframes slide-down {
+            0 {
+              -webkit-transform: scale(1, 0);
+            }
+            25% {
+              -webkit-transform: scale(1, 1.2);
+            }
+            50% {
+              -webkit-transform: scale(1, .85);
+            }
+            75% {
+              -webkit-transform: scale(1, 1.2);
+            }
+            100% {
+              -webkit-transform: scale(1, 1);
+            }
+        }
+
+        @keyframes slide-down {
+            0 {
+              transform: scale(1, 0);
+            }
+            25% {
+              transform: scale(1, 1.2);
+            }
+            50% {
+              transform: scale(1, .85);
+            }
+            75% {
+              transform: scale(1, 1.2);
+            }
+            100% {
+              transform: scale(1, 1);
+            }
+        }
+
+        .select ul > li {
+            padding: 0 15px;
+            line-height: 40px;
+            cursor: pointer;
+        }
+        .select ul > li:hover {
+            background: #c3c3c3;
+        }
+        .select ul > li.selected {
+            background-color: #21A3FF;
+            color: #fff;
+        }
+        .select.open ul {
+            max-height: 200px;
+            transform-origin: 50% 0;
+            animation: slide-down .5s ease-in;
+            transition: max-height .2s ease-out;
+            -webket-transform-origin: 50% 0;
+            -webket-animation: slide-down .5s ease-in;
+            -webket-transition: max-height .2s ease-out;
+        }
+        .select.open:after {
+            top:14px;
+            -webket-transform: rotate(135deg);
+            transform: rotate(135deg);
+        }
+
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="select ">
+            <p>所有选项</p>
+            <ul>
+              <li data-value="所有选项" class="selected">所有选项</li>
+              <li data-value="html">html</li>
+              <li data-value="css">css</li>
+              <li data-value="javascript">javascript</li>
+              <li data-value="nodejs">nodejs</li>
+            </ul>
+        </div>
+    </div>
+    <script>
+    console.log($);
+        $(function(){
+            $('.select > p').on('click',function(e){
+                e.stopPropagation();
+                $('.select').toggleClass('open');
+            });
+        });
+            $('.select ul > li').on('click', function(e){
+                e.stopPropagation();
+                var _this = $(this);
+                $('.select > p').text(_this.attr('data-value'));
+                _this.addClass('selected').siblings().removeClass('selected');
+                $('.select').removeClass('open');
+            })
+            $(document).on('click', function(){
+                $('.select').removeClass('open');
+            })
+    </script>
+</body>
+</html>
