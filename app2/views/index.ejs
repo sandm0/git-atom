@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="bower_components/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="stylesheets/normalize.css">
+    <link rel="stylesheet" href="stylesheets/iconfont.css">
+    <link rel="stylesheet" href="stylesheets/main.css">
+    <title>graph</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div id="graph">
+                <ul class="options clearfix">
+                    <li class="col-xs-4 active"><i class="icon iconfont icon-upload"></i>导入图片</li>
+                    <li class="col-xs-4"><i class="icon iconfont icon-list"></i>列表展示</li>
+                    <li class="col-xs-4"><i class="icon iconfont icon-net"></i>详情展示</li>
+                </ul>
+                <div class="content content-upload">
+                    <div class="input-group">
+                        <div class="input-file form-control">
+                            <input type="file" name="picture">
+                        </div>
+                        <span class="input-group-btn">
+                             <button class="btn btn-default btn-blue" type="button">上传</button>
+                         </span>
+                    </div>
+                </div>
+                <div class="content content-list" style="display:none">
+                    <ul>
+                        <li class="list-item"><i class="icon iconfont icon-delete"></i> <a href="#">图便一</a></li>
+                        <li class="list-item"><i class="icon iconfont icon-delete"></i> <a href="#">图便二</a></li>
+                        <li class="list-item"><i class="icon iconfont icon-delete"></i> <a href="#">图便三</a></li>
+                        <li class="list-item"><i class="icon iconfont icon-delete"></i> <a href="#">图便四</a></li>
+                        <li class="list-item"><i class="icon iconfont icon-delete"></i> <a href="#">图便五</a></li>
+                        <li class="list-item"><i class="icon iconfont icon-delete"></i> <a href="#">图便六</a></li>
+                        <li class="list-item"><i class="icon iconfont icon-delete"></i> <a href="#">图便七</a></li>
+                    </ul>
+                </div>
+                <div class="content content-net" style="display:none"s>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="bower_components/jquery/dist/jquery.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.js"></script>
+    <script src="bower_components/d3/d3.v3.min.js"></script>
+    <script>
+        var width = 1000;
+        var height = 600;
+        var img_w = 77;
+        var img_h = 90;
+
+        var svg = d3.select(".content-net").append("svg")
+                                           .attr("width",width)
+                                           .attr("height",height);
+
+        d3.json("relation.json", function(error, root) {
+            var force = d3.layout.force()
+                            .nodes(root.nodes)
+                            .links(root.edges)
+                            .size([width,height])
+                            .linkDistance(200)
+                            .charge(-1500)
+                            .start();
+
+            var edges_line = svg.selectAll("line")
+                                .data(root.edges)
+                                .enter()
+                                .append("line")
+                                .style("stroke","#dfdfdf")
+                                .style("stroke-width",1);
+                                // .style("stroke-dasharray", "4, 8");
+
+            var edges_text = svg.selectAll(".linetext")
+                                .data(root.edges)
+                                .enter()
+                                .append("text")
+                                .attr("class","linetext")
+                                .text(function(d){
+                                    return d.relation;
+                                });
+
+            var drag = force.drag()
+
+            var nodes_img = svg.selectAll("image")
+                                .data(root.nodes)
+                                .enter()
+                                .append("image")
+                                .attr("width",img_w)
+                                .attr("height",img_h)
+                                .attr("xlink:href",function(d){
+                                    return d.image;
+                                })
+                                .on("mouseover",function(d,i){
+                                    //显示连接线上的文字
+                                    edges_text.style("fill-opacity",function(edge){
+                                        if( edge.source === d || edge.target === d ){
+                                            return 1.0;
+                                        }
+                                    });
+                                })
+                                .on("mouseout",function(d,i){
+                                    //隐去连接线上的文字
+                                    edges_text.style("fill-opacity",function(edge){
+                                        if( edge.source === d || edge.target === d ){
+                                            return 0.0;
+                                        }
+                                    });
+                                })
+                                .on("dblclick",function(d,i){
+                                    d.fixed = false;
+                                })
+                                .call(drag);
+
+            var text_dx = -20;
+            var text_dy = 20;
+
+            var nodes_text = svg.selectAll(".nodetext")
+                                .data(root.nodes)
+                                .enter()
+                                .append("text")
+                                .attr("class","nodetext")
+                                .attr("dx",text_dx)
+                                .attr("dy",text_dy)
+                                .text(function(d){
+                                    return d.name;
+                                });
+
+            force.on("tick", function(){
+
+                //限制结点的边界
+                root.nodes.forEach(function(d,i){
+                    d.x = d.x - img_w/2 < 0     ? img_w/2 : d.x ;
+                    d.x = d.x + img_w/2 > width ? width - img_w/2 : d.x ;
+                    d.y = d.y - img_h/2 < 0      ? img_h/2 : d.y ;
+                    d.y = d.y + img_h/2 + text_dy > height ? height - img_h/2 - text_dy : d.y ;
+                });
+
+                //更新连接线的位置
+                 edges_line.attr("x1",function(d){ return d.source.x; });
+                 edges_line.attr("y1",function(d){ return d.source.y; });
+                 edges_line.attr("x2",function(d){ return d.target.x; });
+                 edges_line.attr("y2",function(d){ return d.target.y; });
+
+                 //更新连接线上文字的位置
+                 edges_text.attr("x",function(d){ return (d.source.x + d.target.x) / 2 ; });
+                 edges_text.attr("y",function(d){ return (d.source.y + d.target.y) / 2 ; });
+
+
+                 //更新结点图片和文字
+                 nodes_img.attr("x",function(d){ return d.x - img_w/2; });
+                 nodes_img.attr("y",function(d){ return d.y - img_h/2; });
+
+                 nodes_text.attr("x",function(d){ return d.x });
+                 nodes_text.attr("y",function(d){ return d.y + img_w/2; });
+            });
+        });
+    </script>
+    <script>
+        $('.options>li').on('click', function(){
+            var idx = $(this).index();
+            $(this).addClass('active').siblings().removeClass('active');
+            $('.content').eq(idx).show().siblings('.content').hide();
+        })
+    </script>
+</body>
+
+</html>
